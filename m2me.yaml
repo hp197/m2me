@@ -1,0 +1,148 @@
+---
+sdm120: &sdm120
+  - name: voltage
+    address: 0
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: V
+    device_class: voltage
+  - name: current
+    address: 6
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: A
+    device_class: current
+  - name: power
+    address: 12
+    function: input
+    count: 2
+    precision: 3
+    formatter: float
+    unit_of_measurement: W
+    device_class: power
+  - name: apparent_power
+    address: 18
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: VA
+    device_class: apparent_power
+  - name: reactive_power
+    address: 24
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: VAr
+    device_class: reactive_power
+  - name: powerfactor
+    address: 30
+    function: input
+    count: 2
+    precision: 2
+    multiply: 100
+    formatter: float
+    unit_of_measurement: "%"
+    device_class: power_factor
+  - name: frequency
+    address: 70
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: Hz
+    device_class: frequency
+  - name: import_active_energy
+    address: 72
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: kWh
+    device_class: energy
+  - name: export_active_energy
+    address: 74
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: kWh
+    device_class: energy
+  - name: import_reactive_energy
+    address: 76
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: kvarh
+    device_class: reactive_power
+  - name: export_reactive_energy
+    address: 78
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: kvarh
+    device_class: reactive_power
+  - name: total_active_energy
+    address: 342
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total
+  - name: total_reactive_energy
+    address: 344
+    function: input
+    count: 2
+    precision: 2
+    formatter: float
+    unit_of_measurement: kvarh
+    device_class: reactive_power
+    state_class: total
+
+logging:
+  enabled: true
+  config:
+    level: INFO
+    encoding: 'UTF-8'
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+mqtt:
+  host: 'localhost'
+  port: 1883
+  username: 'm2me'
+  password: 'm2me'
+  discovery_prefix: 'homeassistant'
+
+prometheus:
+  enabled: True
+  port: 9091
+
+modbus:
+  sleep: 10
+  pymodbus_args:
+    port: /dev/ttyUSB0
+    bytesize: 8
+    parity: 'E'
+    stopbits: 1
+    baudrate: 4800
+    retries: 3
+    timeout: 5
+    retry_on_empty: True
+  devices:
+    - unit: 100
+      byteorder: '>'
+      wordorder: '>'
+      items: *sdm120
+    - unit: 1
+      byteorder: '>'
+      wordorder: '>'
+      items: *sdm120

@@ -1,0 +1,7 @@
+python_version>="3.6"
+confuse>=2.0.0
+prometheus_client>=0.15.0
+pymodbus~=2.5.3
+pyserial~=3.4
+pyserial-asyncio~=0.4
+paho-mqtt~=1.6.0
